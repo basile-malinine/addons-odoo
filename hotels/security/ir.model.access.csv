@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hotels_hotel,access_hotels_hotel,model_hotels_hotel,base.group_user,1,1,1,1
+access_hotels_contract,access_hotels_contract,model_hotels_contract,base.group_user,1,1,1,1
+access_hotels_city,access_hotels_city,model_hotels_city,base.group_user,1,1,1,1
+access_hotels_invoice,access_hotels_invoice,model_hotels_invoice,base.group_user,1,1,1,1
+access_hotels_order,access_hotels_order,model_hotels_order,base.group_user,1,1,1,1
+access_hotels_import_hz,access_hotels_import_hz,model_hotels_import_hz,base.group_user,1,1,1,1

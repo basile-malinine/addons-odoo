@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <record id="action_invoices" model="ir.actions.act_window">
+        <field name="name">Invoice</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hotels.invoice</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+          </p><p>
+          </p>
+        </field>
+    </record>
+
+    <!-- Invoice Menu -->
+    <menuitem name="Invoices"
+        id="menu_invoices"
+        sequence="1"
+        groups="base.group_user"/>
+
+    <menuitem id="menu_item_invoices"
+        name="Invoices"
+        action="action_invoices"
+        parent="menu_invoices"
+        sequence="2"/>
+
+    <!-- Invoice Tree -->
+    <record id="view_tree_invoice" model="ir.ui.view">
+        <field name="name">Invoices</field>
+        <field name="model">hotels.invoice</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" width="180px"/>
+                <field name="invoice_date"/>
+                <field name="hotel_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Invoice Form -->
+    <record id="view_invoice_form" model="ir.ui.view">
+        <field name="name">hotels.invoice.form</field>
+        <field name="model">hotels.invoice</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <h2><field name="name" default_focus="1" placeholder="Number"/></h2>
+                    <group>
+                        <group>
+                            <field name="invoice_date"/>
+                        </group>
+                        <group>
+                            <field name="hotel_id"/>
+                            <field name="contract_id"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Orders" name='orders' >
+                            <field name="orders_ids" mode="tree">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="order_date"/>
+                                    <field name="guest_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

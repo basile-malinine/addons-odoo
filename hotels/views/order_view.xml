@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <record id="action_orders" model="ir.actions.act_window">
+        <field name="name">Order</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hotels.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+          </p><p>
+          </p>
+        </field>
+    </record>
+
+    <!-- Order Menu -->
+    <menuitem name="Orders"
+        id="menu_orders"
+        sequence="1"
+        groups="base.group_user"/>
+
+    <menuitem id="menu_item_orders"
+        name="Orders"
+        action="action_orders"
+        parent="menu_orders"
+        sequence="2"/>
+
+    <!-- Order Tree -->
+    <record id="view_tree_order" model="ir.ui.view">
+        <field name="name">Orders</field>
+        <field name="model">hotels.order</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" width="180px"/>
+                <field name="order_date"/>
+                <field name="guest_id"/>
+                <field name="hotel_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Order Form -->
+    <record id="view_order_form" model="ir.ui.view">
+        <field name="name">hotels.order.form</field>
+        <field name="model">hotels.order</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <h2><field name="name" default_focus="1" placeholder="Number"/></h2>
+                    <group>
+                        <group>
+                            <field name="order_date"/>
+                            <field name="guest_id"/>
+                            <field name="hotel_id"/>
+                            <field name="invoice_id"/>
+                        </group>
+                        <group>
+                            <field name="arrival_date"/>
+                            <field name="arrival_time"/>
+                            <field name="departure_date"/>
+                        </group>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_search_order" model="ir.ui.view">
+        <field name="name">hotels.order.select</field>
+        <field name="model">hotels.order</field>
+        <field name="arch" type="xml">
+            <search string="Order Search">
+                <field name="name" filter_domain="['|', '|', ('name', 'ilike', self), ('guest_id', 'child_of', self), ('hotel_id', 'ilike', self)]"/>
+                <filter name="order_date" string="Order Date" date="order_date"/>
+            </search>
+        </field>
+    </record>
+
+</odoo>
