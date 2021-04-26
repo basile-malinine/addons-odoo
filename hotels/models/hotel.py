@@ -8,7 +8,6 @@ class Hotel(models.Model):
 
     name = fields.Char(string='Name', required=True)
     num_stars = fields.Selection(string='Stars', selection=NUM_STARS_LIST, default='a')
-    # region_id
     city_id = fields.Many2one('hotels.city', string='City')
     address = fields.Char('Address')
     phone = fields.Char('Phone')

@@ -48,3 +48,8 @@ class HotelsImport(models.TransientModel):
         return 'hz_last_update: ' + hotel_rec.hz_last_update.strftime('%Y-%m-%d %H:%M:%S') + '   ' + \
                'id: ' + str(hotel_rec.id) + '   hz_id: ' + str(hotel_rec.hz_id)
 
+    def import_test_hz(self, param):
+        if param:
+            print(param)
+
+
