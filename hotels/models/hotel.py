@@ -6,8 +6,9 @@ class Hotel(models.Model):
     _name = 'hotels.hotel'
     _description = 'Hotel'
 
-    name = fields.Char('Name', required=True)
+    name = fields.Char(string='Name', required=True)
     num_stars = fields.Selection(string='Stars', selection=NUM_STARS_LIST, default='a')
+    # region_id
     city_id = fields.Many2one('hotels.city', string='City')
     address = fields.Char('Address')
     phone = fields.Char('Phone')
@@ -18,10 +19,11 @@ class Hotel(models.Model):
     fine_size = fields.Selection(selection=FINE_SIZE_LIST)
     banks_ids = fields.One2many('res.partner.bank', 'hotel_id', string='Bank Accounts')
     contacts_ids = fields.Many2many('res.partner', string='Contacts')
+    room_types_ids = fields.One2many('hotels.room_type', 'hotel_id', string='Rooms')
     contracts_ids = fields.One2many('hotels.contract', 'hotel_id', string='Contracts')
-    commission = fields.Integer('Commission %', default=12)
-    company_id = fields.Many2one('res.company', default=lambda self: self.env.user.company_id.id)
     invoices_ids = fields.One2many('hotels.invoice', 'hotel_id', string='Invoices')
+    commission = fields.Float(default=0.12)
+    company_id = fields.Many2one('res.company', default=lambda self: self.env.user.company_id.id)
     arrival_time_std = fields.Selection(selection=ARRIVAL_TIME_LIST, string='Arrival time (standard)', default='14')
 
     hz_id = fields.Integer()

@@ -1,5 +1,6 @@
 from odoo import fields, models, api
 import datetime
+import requests
 from . import hotel
 from . import contract
 from . import city

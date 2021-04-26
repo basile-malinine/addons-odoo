@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <record id="action_room_types" model="ir.actions.act_window">
+        <field name="name">Room types</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hotels.room_type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+          </p><p>
+          </p>
+        </field>
+    </record>
+
+    <!-- Room type Menu -->
+    <menuitem name="Room types"
+        id="menu_room_types"
+        sequence="1"
+        groups="base.group_user"/>
+
+    <menuitem id="menu_item_room_types"
+        name="Room types"
+        action="action_room_types"
+        parent="menu_room_types"
+        sequence="2"/>
+
+    <!-- Room type Tree -->
+    <record id="view_room_type" model="ir.ui.view">
+        <field name="name">Room types</field>
+        <field name="model">hotels.room_type</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" width="180px"/>
+                <field name="hotel_id"/>
+                <field name="currency_id" invisible="True"/>
+                <field name="price" widget="monetary"/>
+                <field name="quantity"/>
+                <field name="hz_id" string="HZ ID"/>
+                <field name="hz_last_update" string="HZ Last update"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Room type Form -->
+    <record id="view_room_type_form" model="ir.ui.view">
+        <field name="name">hotels.room_type.form</field>
+        <field name="model">hotels.room_type</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <h2><field name="name" default_focus="1" placeholder="Name"/></h2>
+                    <group>
+                        <group>
+                            <field name="hotel_id"/>
+                            <field name="currency_id" invisible="True"/>
+                            <field name="price"/>
+                            <field name="quantity"/>
+                        </group>
+                        <group>
+                            <field name="hz_id" string="HZ ID"/>
+                            <field name="hz_last_update" string="HZ last update"/>
+                        </group>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+<!--    <record id="view_search_order" model="ir.ui.view">-->
+<!--        <field name="name">hotels.order.select</field>-->
+<!--        <field name="model">hotels.order</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <search string="Order Search">-->
+<!--                <field name="name" filter_domain="['|', '|', ('name', 'ilike', self), ('guest_id', 'child_of', self), ('hotel_id', 'ilike', self)]"/>-->
+<!--                <filter name="order_date" string="Order Date" date="order_date"/>-->
+<!--            </search>-->
+<!--        </field>-->
+<!--    </record>-->
+
+</odoo>

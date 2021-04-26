@@ -31,13 +31,15 @@
         <field name="name">Hotels</field>
         <field name="model">hotels.hotel</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree string="Tree Hotels">
                 <field name="name"/>
-                <field name="commission" string="%"/>
+                <field name="commission" string="Commission" widget="percentage"/>
                 <field name="num_stars"/>
                 <field name="city_id"/>
                 <field name="phone"/>
                 <field name="hotelier_id"/>
+                <field name="hz_id" string="HZ ID"/>
+                <field name="hz_last_update" string="HZ Last update"/>
             </tree>
         </field>
     </record>
@@ -70,7 +72,7 @@
                         </group>
                         <group>
                             <field name="arrival_time_std"/>
-                            <field name="commission"/>
+                            <field name="commission" widget="percentage"/>
                             <field name="fine_period"/>
                             <field name="fine_size"/>
                         </group>
@@ -79,6 +81,15 @@
                     <notebook>
                         <page string="Contacts" name="contacts" autofocus="autofocus">
                             <field name="contacts_ids"/>
+                        </page>
+                        <page string="Rooms" name='rooms' >
+                            <field name="room_types_ids" mode="tree">
+                                <tree>
+                                    <field name="name" width="20%"/>
+                                    <field name="price" width="20%"/>
+                                    <field name="quantity" width="60%"/>
+                                </tree>
+                            </field>
                         </page>
                         <page string="Contracts" name='contracts' >
                             <field name="contracts_ids" mode="tree">

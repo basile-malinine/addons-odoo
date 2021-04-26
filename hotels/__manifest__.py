@@ -13,6 +13,7 @@
         'views/contract_view.xml',
         'views/invoice_view.xml',
         'views/order_view.xml',
+        'views/room_type_view.xml',
         'views/hotels_partner_view.xml',
         'security/ir.model.access.csv',
     ],

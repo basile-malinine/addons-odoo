@@ -31,7 +31,7 @@
         <field name="model">hotels.contract</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name" width="180px"/>
+                <field name="name"/>
                 <field name="contract_date"/>
                 <field name="hotel_id"/>
             </tree>
