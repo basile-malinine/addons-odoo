@@ -35,7 +35,6 @@
                 <field name="hotel_id"/>
                 <field name="currency_id" invisible="True"/>
                 <field name="price" widget="monetary"/>
-                <field name="quantity"/>
                 <field name="hz_id" string="HZ ID"/>
                 <field name="hz_last_update" string="HZ Last update"/>
             </tree>
@@ -55,7 +54,6 @@
                             <field name="hotel_id"/>
                             <field name="currency_id" invisible="True"/>
                             <field name="price"/>
-                            <field name="quantity"/>
                         </group>
                         <group>
                             <field name="hz_id" string="HZ ID"/>
@@ -67,16 +65,5 @@
             </form>
         </field>
     </record>
-
-<!--    <record id="view_search_order" model="ir.ui.view">-->
-<!--        <field name="name">hotels.order.select</field>-->
-<!--        <field name="model">hotels.order</field>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <search string="Order Search">-->
-<!--                <field name="name" filter_domain="['|', '|', ('name', 'ilike', self), ('guest_id', 'child_of', self), ('hotel_id', 'ilike', self)]"/>-->
-<!--                <filter name="order_date" string="Order Date" date="order_date"/>-->
-<!--            </search>-->
-<!--        </field>-->
-<!--    </record>-->
 
 </odoo>

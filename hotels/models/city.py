@@ -6,3 +6,5 @@ class City(models.Model):
     _description = 'City'
 
     name = fields.Char('City', index=True)
+
+    hz_id = fields.Integer()

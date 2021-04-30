@@ -1,5 +1,19 @@
-# Время заезда
-ARRIVAL_TIME_LIST = [
+"""
+    Файл содержит глобальные определения для модуля hotels
+"""
+
+# Количество звёзд Отеля
+NUM_STARS_LIST = [
+    ('1178', 'Without stars'),
+    ('1189', '1'),
+    ('876',  '2'),
+    ('812',  '3'),
+    ('828',  '4'),
+    ('884',  '5')
+]
+
+# Время заезда / выезда
+TIME_LIST = [
     ('0', '00:00 - 01:00'),
     ('1', '01:00 - 02:00'),
     ('2', '02:00 - 03:00'),
@@ -26,23 +40,19 @@ ARRIVAL_TIME_LIST = [
     ('23', '23:00 - 00:00'),
 ]
 
-# Количество звёзд
-NUM_STARS_LIST = [('a', 'None'), ('b', '1'), ('c', '2'), ('d', '3'), ('e', '4'), ('f', '5')]
-
 # Период штрафных санкций
 FINE_PERIOD_LIST = [
-    ('hours_14', '14:00 on the day of arrival'),
-    ('hours_18', '18:00 on the day of arrival'),
-    ('days_2',   'Until 2 days before arrival'),
-    ('days_3',   'Until 3 days before arrival'),
-    ('days_5',   'Until 5 days before arrival'),
-    ('days_7',   'Until 7 days before arrival'),
+    ('14',  '14:00 on the day of arrival'),
+    ('18',  '18:00 on the day of arrival'),
+    ('24',  'Until 1 days before arrival'),
+    ('48',  'Until 2 days before arrival'),
+    ('72',  'Until 2 days before arrival'),
+    ('120', 'Until 5 days before arrival'),
 ]
 
 # Размер штрафа
 FINE_SIZE_LIST = [
-    ('first_night', 'The cost of the first night'),
-    ('percent_50',  '50% of the total price'),
-    ('percent_100', '100% of the total price'),
+    ('1', 'The cost of the first night'),
+    ('2',  '50% of the total price'),
+    ('3', '100% of the total price'),
 ]
-

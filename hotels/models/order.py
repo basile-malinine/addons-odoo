@@ -1,7 +1,7 @@
 import datetime
 from dateutil import tz
 from odoo import fields, models, api
-from . sysdef import ARRIVAL_TIME_LIST
+from . sysdef import TIME_LIST
 
 
 class Order(models.Model):
@@ -14,10 +14,13 @@ class Order(models.Model):
     arrival_date = fields.Datetime('Arrival date')
     departure_date = fields.Date('Departure date')
     hotel_id = fields.Many2one('hotels.hotel', string='Hotel')
-    arrival_time = fields.Selection(string='Arrival Time', selection=ARRIVAL_TIME_LIST)
+    arrival_time = fields.Selection(string='Arrival Time', selection=TIME_LIST)
     invoice_id = fields.Many2one('hotels.invoice', string='Invoice', required=True,
                                  domain="[('hotel_id', '=', hotel_id)]")
     company_id = fields.Many2one('res.company', default=lambda self: self.env.user.company_id.id)
+
+    hz_id = fields.Integer()
+    hz_last_update = fields.Datetime()
 
     @api.onchange('guest_id')
     def _onchange_guest(self):
@@ -29,10 +32,13 @@ class Order(models.Model):
         if self.hotel_id:
             self.arrival_time = self.hotel_id.arrival_time_std
 
+    # При включении Заказа в Счёт установить в Заказе hotel_id из Счёта
     @api.onchange('invoice_id')
     def _onchange_invoice(self):
         self.update({'hotel_id': self.invoice_id.hotel_id.id})
 
+    # При изменении Даты заезда в Заказе
+    # Время в Дате заезда в Заказе == Время заезда в заказе (+ корректировка TZ)
     @api.onchange('arrival_date')
     def _onchange_arrival_date(self):
         dst_tz_name = self.env.user.tz
@@ -49,6 +55,8 @@ class Order(models.Model):
             new_date = new_date.astimezone(datetime.timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
             self.update({'arrival_date': new_date})
 
+    # При изменении Времени заезда в Заказе
+    # Время в Дате заезда в Заказе == Время заезда в заказе (+ корректировка TZ)
     @api.onchange('arrival_time')
     def _onchange_arrival_time(self):
         if self.arrival_date:

@@ -10,6 +10,9 @@ class Partner(models.Model):
     _inherit = 'res.partner'
     hotels_partner_type = fields.Selection(string='Partner type', selection=HOTELS_PARTNER_TYPE_LIST)
 
+    hz_id = fields.Integer()
+    hz_last_update = fields.Datetime()
+
 
 class ResPartnerBank(models.Model):
     _inherit = 'res.partner.bank'

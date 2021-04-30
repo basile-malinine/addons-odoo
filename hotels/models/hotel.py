@@ -7,7 +7,7 @@ class Hotel(models.Model):
     _description = 'Hotel'
 
     name = fields.Char(string='Name', required=True)
-    num_stars = fields.Selection(string='Stars', selection=NUM_STARS_LIST, default='a')
+    num_stars = fields.Selection(string='Stars', selection=NUM_STARS_LIST, default=False)
     city_id = fields.Many2one('hotels.city', string='City')
     address = fields.Char('Address')
     phone = fields.Char('Phone')
@@ -23,7 +23,12 @@ class Hotel(models.Model):
     invoices_ids = fields.One2many('hotels.invoice', 'hotel_id', string='Invoices')
     commission = fields.Float(default=0.12)
     company_id = fields.Many2one('res.company', default=lambda self: self.env.user.company_id.id)
-    arrival_time_std = fields.Selection(selection=ARRIVAL_TIME_LIST, string='Arrival time (standard)', default='14')
+    arrival_time_std = fields.Selection(selection=TIME_LIST, string='Arrival time (standard)', default='14')
+
+    # Поля hz_arrival_time_std, hz_departure_time_std -- оригинальные из Drupal Hotelzov, для проверки
+    # корректности конвертирования String() (Drupal) в fields.Selection() (odoo)
+    hz_arrival_time_std = fields.Char()
+    hz_departure_time_std = fields.Char()
 
     hz_id = fields.Integer()
     hz_last_update = fields.Datetime()

@@ -10,7 +10,7 @@ class RoomType(models.Model):
     currency_id = fields.Many2one('res.currency', string='Currency',
                                   default=lambda self: self.env.user.company_id.currency_id)
     price = fields.Monetary('Price')
-    quantity = fields.Integer(string='Quantity')
 
     hz_id = fields.Integer()
+    hz_hotel_id = fields.Integer()
     hz_last_update = fields.Datetime()

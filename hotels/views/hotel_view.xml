@@ -87,7 +87,6 @@
                                 <tree>
                                     <field name="name" width="20%"/>
                                     <field name="price" width="20%"/>
-                                    <field name="quantity" width="60%"/>
                                 </tree>
                             </field>
                         </page>
