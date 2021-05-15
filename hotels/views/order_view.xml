@@ -35,6 +35,9 @@
                 <field name="order_date"/>
                 <field name="guest_id"/>
                 <field name="hotel_id"/>
+                <field name="currency_id" invisible="True"/>
+                <field name="price" widget="monetary"/>
+                <field name="status"/>
             </tree>
         </field>
     </record>
@@ -53,12 +56,16 @@
                             <field name="guest_id"/>
                             <field name="hotel_id"/>
                             <field name="invoice_id"/>
+                            <field name="status"/>
                         </group>
                         <group>
                             <field name="arrival_date"/>
                             <field name="arrival_time"/>
                             <field name="departure_date"/>
+                            <field name="currency_id" invisible="True"/>
+                            <field name="price"/>
                         </group>
+                        <field name="room_type_id"/>
                     </group>
 
                 </sheet>

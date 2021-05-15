@@ -11,6 +11,10 @@ class RoomType(models.Model):
                                   default=lambda self: self.env.user.company_id.currency_id)
     price = fields.Monetary('Price')
 
+    # Если при импорте код валюты не найден,
+    # здесь сохраняется оригинальный код из Hotelzov
+    hz_currency_code = fields.Char()
+
     hz_id = fields.Integer()
     hz_hotel_id = fields.Integer()
     hz_last_update = fields.Datetime()

@@ -5,8 +5,24 @@
     <field name="model">res.partner</field>
     <field name="inherit_id" ref="base.view_partner_form"/>
     <field name="arch" type="xml">
-      <field name="company_type" position="after">
-        <field name="hotels_partner_type" string="Partner type"/>
+      <field name="vat" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </field>
+      <field name="company_type" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </field>
+      <field name="parent_id" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </field>
+      <field name="type" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </field>
+      <page name="sales_purchases" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </page>
+      <field name="type" position="before">
+        <field name="is_hotelier" string="Hotelier"/>
+        <field name="is_guest" string="Guest"/>
       </field>
     </field>
   </record>

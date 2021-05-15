@@ -6,3 +6,4 @@ from . import invoice
 from . import order
 from . import import_hz
 from . import room_type
+from . import hotels_settings

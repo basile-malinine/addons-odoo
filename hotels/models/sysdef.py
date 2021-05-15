@@ -56,3 +56,16 @@ FINE_SIZE_LIST = [
     ('2',  '50% of the total price'),
     ('3', '100% of the total price'),
 ]
+
+# Статус Заказа
+ORDER_STATUS_LIST = [
+    ('canceled', 'Отменено'),
+    ('cart', 'Корзина'),
+    ('checkout_checkout', 'Оформление: Оформление заказа'),
+    ('checkout_review', 'Оформление: Оставить отзыв'),
+    ('checkout_payment', 'Оформление: Оплата'),
+    ('checkout_complete', 'Оформление: Завершен'),
+    ('pending', 'В ожидании'),
+    ('processing', 'Обработка'),
+    ('completed', 'Завершено'),
+]

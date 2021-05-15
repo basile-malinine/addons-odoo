@@ -1,0 +1,59 @@
+По Заказу для экспорта нужна информация:
+То, что я понимаю или предполагаю, я заполнил. Проверьте, пожалуйста, и откорректируйте
+допустим $order содержит сущность (объект) Заказа, тогда:
+
+id - id Заказа
+    $order->order_id
+
+hotel_id - id Отеля
+    $line_item = commerce_line_item_load($order->commerce_line_items['und'][0]['line_item_id']);
+    $product_id = $line_item->commerce_product['und'][0]['product_id'];
+    $query = db_select('field_data_field_st_property_reference', 'spr');
+    $query->innerJoin('field_data_accommodation_product_reference', 'pr', 'spr.entity_id=pr.entity_id');
+    $query->fields('spr', array('field_st_property_reference_target_id'));
+    $query->condition('pr.accommodation_product_reference_target_id', $product_id);
+    $hotel_id = $query->execute()->fetchCol()[0];
+    Это Ваш код получения id Отеля
+
+room_type_id - Тип номера Отеля
+    $line_item = commerce_line_item_load($order->commerce_line_items['und'][0]['line_item_id']);
+    $booking = entity_load('bat_booking', array($line_item->commerce_booking_reference['und'][0]['target_id']));
+    $booking_event_id = $booking[1]->booking_event_reference['und'][0]['target_id'];
+    $event = bat_event_load($booking_event_id);
+    $event_wrapper = entity_metadata_wrapper('bat_event', $event);
+    $room_type_id = $event_wrapper->event_bat_unit_reference->type_id->value();
+
+guest_id - id Гостя
+    $customer_profile = commerce_customer_profile_load($order->commerce_customer_billing['und'][0]['profile_id']);
+    $guest_id = $customer_profile->uid;
+
+number - Номер Заказа
+    $order->order_number
+
+date - Дата Заказа
+    $order->created
+    readonly
+    Это, наверное, заполняется автоматически
+
+currency_code - Валюта в Заказе
+    $order->commerce_order_total['und'][0]['currency_code']
+
+price - Сумма заказа
+    $order->commerce_order_total['und'][0]['amount']
+
+status - Статус Заказа
+    $order->status ?
+    Нужен список всех возможных статусов
+
+arrival_date - Дата прибытия
+    ?
+    customer_profile
+
+arrival_time - Время прибытия
+    ?
+
+departure_date - Дата выездв
+    ?
+
+last_update - Дата последнего обновления
+    $order->changed

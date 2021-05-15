@@ -58,6 +58,7 @@
                         <group>
                             <field name="hz_id" string="HZ ID"/>
                             <field name="hz_last_update" string="HZ last update"/>
+                            <field name="hz_currency_code" string="HZ currency code"/>
                         </group>
                     </group>
 

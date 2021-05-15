@@ -1,7 +1,7 @@
 import datetime
 from dateutil import tz
 from odoo import fields, models, api
-from . sysdef import TIME_LIST
+from . sysdef import *
 
 
 class Order(models.Model):
@@ -9,33 +9,37 @@ class Order(models.Model):
     _description = 'Order'
 
     name = fields.Char('Number', required=True)
-    order_date = fields.Date('Order date')
-    guest_id = fields.Many2one('res.partner', domain="[('hotels_partner_type', '=', 'type_guest')]")
-    arrival_date = fields.Datetime('Arrival date')
-    departure_date = fields.Date('Departure date')
     hotel_id = fields.Many2one('hotels.hotel', string='Hotel')
+    guest_id = fields.Many2one('res.partner', domain="[('is_guest', '=', True)]")
+    room_type_id = fields.Many2one('hotels.room_type', domain="[('hotel_id', '=', hotel_id)]")
+    order_date = fields.Date(string='Order date')
+    status = fields.Selection(string='Status', selection=ORDER_STATUS_LIST)
+    arrival_date = fields.Date(string='Arrival date')
+    departure_date = fields.Date(string='Departure date')
     arrival_time = fields.Selection(string='Arrival Time', selection=TIME_LIST)
-    invoice_id = fields.Many2one('hotels.invoice', string='Invoice', required=True,
+    invoice_id = fields.Many2one('hotels.invoice', string='Invoice',
                                  domain="[('hotel_id', '=', hotel_id)]")
     company_id = fields.Many2one('res.company', default=lambda self: self.env.user.company_id.id)
+    currency_id = fields.Many2one('res.currency', string='Currency',
+                                  default=lambda self: self.env.user.company_id.currency_id)
+    price = fields.Monetary(string='Price')
+
+    # Если при импорте код валюты не найден,
+    # здесь сохраняется оригинальный код из Hotelzov
+    hz_currency_code = fields.Char()
 
     hz_id = fields.Integer()
     hz_last_update = fields.Datetime()
 
     @api.onchange('guest_id')
     def _onchange_guest(self):
-        self.guest_id.hotels_partner_type = 'type_guest'
+        self.guest_id.is_guest = True
 
     @api.onchange('hotel_id')
     def _onchange_hotel(self):
         self.invoice_id = False
         if self.hotel_id:
             self.arrival_time = self.hotel_id.arrival_time_std
-
-    # При включении Заказа в Счёт установить в Заказе hotel_id из Счёта
-    @api.onchange('invoice_id')
-    def _onchange_invoice(self):
-        self.update({'hotel_id': self.invoice_id.hotel_id.id})
 
     # При изменении Даты заезда в Заказе
     # Время в Дате заезда в Заказе == Время заезда в заказе (+ корректировка TZ)

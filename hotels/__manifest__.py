@@ -15,6 +15,7 @@
         'views/order_view.xml',
         'views/room_type_view.xml',
         'views/hotels_partner_view.xml',
+        'views/hotels_settings_view.xml',
         'security/ir.model.access.csv',
     ],
 }

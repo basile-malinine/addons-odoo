@@ -1,5 +1,6 @@
 from odoo import fields, models, api
 from . sysdef import *
+import requests
 
 
 class Hotel(models.Model):
@@ -13,7 +14,7 @@ class Hotel(models.Model):
     phone = fields.Char('Phone')
     email = fields.Char('E-Mail')
     hotelier_id = fields.Many2one('res.partner', string='Hotelier',
-                                  domain="[('hotels_partner_type', '=', 'type_hotelier')]")
+                                  domain="[('is_hotelier', '=', True)]")
     fine_period = fields.Selection(selection=FINE_PERIOD_LIST)
     fine_size = fields.Selection(selection=FINE_SIZE_LIST)
     banks_ids = fields.One2many('res.partner.bank', 'hotel_id', string='Bank Accounts')
@@ -35,4 +36,4 @@ class Hotel(models.Model):
 
     @api.onchange('hotelier_id')
     def _onchange_hotelier(self):
-        self.hotelier_id.hotels_partner_type = 'type_hotelier'
+        self.hotelier_id.is_hotelier = True

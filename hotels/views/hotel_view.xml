@@ -50,6 +50,9 @@
         <field name="model">hotels.hotel</field>
         <field name="arch" type="xml">
             <form string="">
+                <header>
+<!--                    <button name="import_action" type="object" string="Update"/>-->
+                </header>
                 <sheet>
 
                     <group>
@@ -86,6 +89,7 @@
                             <field name="room_types_ids" mode="tree">
                                 <tree>
                                     <field name="name" width="20%"/>
+                                    <field name="currency_id" invisible="True"/>
                                     <field name="price" width="20%"/>
                                 </tree>
                             </field>
@@ -93,8 +97,9 @@
                         <page string="Contracts" name='contracts' >
                             <field name="contracts_ids" mode="tree">
                                 <tree>
-                                    <field name="name" width="20%"/>
-                                    <field name="contract_date" width="80%"/>
+                                    <field name="name" string="Number"/>
+                                    <field name="contract_date" string="Date"/>
+                                    <field name="commission" string="Commission" widget="percentage"/>
                                 </tree>
                             </field>
                         </page>
