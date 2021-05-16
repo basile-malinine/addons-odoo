@@ -33,8 +33,8 @@
             <tree>
                 <field name="name" width="180px"/>
                 <field name="order_date"/>
-                <field name="guest_id"/>
-                <field name="hotel_id"/>
+<!--                <field name="guest_id"/>-->
+<!--                <field name="hotel_id"/>-->
                 <field name="currency_id" invisible="True"/>
                 <field name="price" widget="monetary"/>
                 <field name="status"/>
@@ -53,19 +53,19 @@
                     <group>
                         <group>
                             <field name="order_date"/>
-                            <field name="guest_id"/>
-                            <field name="hotel_id"/>
-                            <field name="invoice_id"/>
+<!--                            <field name="guest_id"/>-->
+<!--                            <field name="hotel_id"/>-->
+<!--                            <field name="invoice_id"/>-->
                             <field name="status"/>
                         </group>
                         <group>
-                            <field name="arrival_date"/>
-                            <field name="arrival_time"/>
-                            <field name="departure_date"/>
+<!--                            <field name="arrival_date"/>-->
+<!--                            <field name="arrival_time"/>-->
+<!--                            <field name="departure_date"/>-->
                             <field name="currency_id" invisible="True"/>
                             <field name="price"/>
                         </group>
-                        <field name="room_type_id"/>
+                        <field name="items_accommodation"/>
                     </group>
 
                 </sheet>
@@ -78,7 +78,8 @@
         <field name="model">hotels.order</field>
         <field name="arch" type="xml">
             <search string="Order Search">
-                <field name="name" filter_domain="['|', '|', ('name', 'ilike', self), ('guest_id', 'child_of', self), ('hotel_id', 'ilike', self)]"/>
+<!--                <field name="name" filter_domain="['|', '|', ('name', 'ilike', self), ('guest_id', 'child_of', self), ('hotel_id', 'ilike', self)]"/>-->
+                <field name="name" filter_domain="['|', ('name', 'ilike', self), ('guest_id', 'child_of', self)]"/>
                 <filter name="order_date" string="Order Date" date="order_date"/>
             </search>
         </field>
