@@ -2,3 +2,7 @@
     padding-right: 10px;
     font-weight: bold;
 }
+
+.fld-inp-int {
+    width: 50px !important;
+}

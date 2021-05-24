@@ -28,7 +28,7 @@
                             <div class="col-12 col-lg-6 o_setting_box" id="active_user_setting">
                                 <div class="o_setting_right_pane">
                                     <span class='o_form_label'>Hotels in paket:</span>
-                                    <field name="num_hotels_in_paket"/>
+                                    <field name="num_hotels_in_paket" class="fld-inp-int"/>
                                     <br/>
                                     <button name="import_hotels" type="object" string="Import"/>
                                 </div>
@@ -40,7 +40,7 @@
                             <div class="col-12 col-lg-6 o_setting_box" id="active_user_setting">
                                 <div class="o_setting_right_pane">
                                     <span class='o_form_label'>Orders in paket:</span>
-                                    <field name="num_orders_in_paket"/>
+                                    <field name="num_orders_in_paket" class="fld-inp-int"/>
                                     <br/>
                                     <button name="import_orders" type="object" string="Import"/>
                                 </div>

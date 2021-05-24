@@ -61,7 +61,7 @@ class HotelsSettings(models.TransientModel):
                              data={'odoo_url': 'http://95.165.173.247:8069', 'odoo_db': 'hotelzov',
                                    'odoo_user': 'admin', 'odoo_pass': 'admin', 'entity': 'hotels',
                                    'num': self.num_hotels_in_paket, 'exp': 1, 'pass': 123456789})
-        print(resp)
+        print(resp.json())
 
     def import_orders(self):
         resp = requests.post(self.url_hz + '/oda/action',
