@@ -183,6 +183,105 @@ class HotelsImport(models.TransientModel):
             print('    Ошибка импорта Отеля...')
         return hotel_rec
 
+    # ф-ции импорта позиций состава Заказа
+
+    # Импорт позиции Размещения в Заказе
+    def item_accommodation_import(self, hz_model):
+        item_accommodation_rec = self.env['hotels.order.item.accommodation'].search([('hz_id', '=', hz_model['id'])])
+        if item_accommodation_rec:
+            # Если запись позиции Бронирования в odoo уже есть:
+            if time.mktime(item_accommodation_rec.hz_last_update.timetuple()) >= int(hz_model['changed']):
+                # 1. Если экспорт записи в odoo был позже чем последнее обновление на Hotelzov,
+                #    то обновление не требуется
+                print('Обновление бронирования в Заказе: ' + str(item_accommodation_rec.room_type_id.name) + ' не требуется')
+                print('Дата odoo: ' + item_accommodation_rec.hz_last_update.strftime('%Y-%m-%d %H:%M:%S'))
+                print('Дата hotelzov: ' +
+                      datetime.datetime.fromtimestamp(int(hz_model['changed'])).strftime('%Y-%m-%d %H:%M:%S'))
+                return item_accommodation_rec
+            else:
+                # 2. Иначе:
+                print('Обновление бронирования в Заказе: ' + str(item_accommodation_rec.room_type_id.name))
+        else:
+            # 3. Если позиция Бронирования в odoo отсутствует, создаём запись и заполняем hz_id
+            item_accommodation_rec = self.env['hotels.order.item.accommodation'].create({'hz_id': int(hz_model['id'])})
+            print('Добавлено бронирование в Заказ, id: ' + str(hz_model['id']))
+        # Для пуктов 2 и 3 обновление всех остальных полей
+
+        # Ссылка на Отель
+        if 'hotel' in hz_model:
+            # Получаем инфо по Отелю
+            info_hotel = hz_model['hotel']
+            # Импорт Отеля
+            hotel_rec = self.hotel_import(info_hotel)
+            # Добавляем ссылку
+            if item_accommodation_rec.hotel_id != hotel_rec:
+                item_accommodation_rec.hotel_id = hotel_rec
+
+        # Ссылка на Тип номера Бронирования
+        if 'room_type' in hz_model:
+            # Получаем инфо по Типу номера Бронирования
+            info_room_type = hz_model['room_type']
+            # Импорт Типа номера
+            room_type_rec = self.room_type_import(info_room_type)
+            # Добавляем ссылку
+            if item_accommodation_rec.room_type_id != room_type_rec:
+                item_accommodation_rec.room_type_id = room_type_rec
+
+        # Дата заезда
+        arrival_date = hz_model['arrival_date']
+        # Дата отъезда
+        departure_date = hz_model['departure_date']
+
+        # Заполнение полей
+        item_accommodation_rec.update({
+            # ID Брони
+            'booking_id': hz_model['booking_id'],
+            'arrival_date': arrival_date,
+            'departure_date': departure_date,
+            'quantity': hz_model['quantity'],
+            'price': hz_model['price'],
+            'price_total': hz_model['total'],
+            'hz_last_update': datetime.datetime.now(),
+        })
+        return item_accommodation_rec
+
+    # Импорт позиций Авиабилетов в Заказе
+    def item_flight_import(self, hz_model):
+        item_flight_rec = self.env['hotels.order.item.flight'].search([('hz_id', '=', hz_model['id'])])
+        if item_flight_rec:
+            # Если запись позиции Авиабилет в odoo уже есть:
+            if time.mktime(item_flight_rec.hz_last_update.timetuple()) >= int(hz_model['changed']):
+                # 1. Если экспорт записи в odoo был позже чем последнее обновление на Hotelzov,
+                #    то обновление не требуется
+                print('Обновление Авиабилет в Заказе: ' + str(item_flight_rec.name) +
+                      ' не требуется')
+                print('Дата odoo: ' + item_flight_rec.hz_last_update.strftime('%Y-%m-%d %H:%M:%S'))
+                print('Дата hotelzov: ' +
+                      datetime.datetime.fromtimestamp(int(hz_model['changed'])).strftime('%Y-%m-%d %H:%M:%S'))
+                return item_flight_rec
+            else:
+                # 2. Иначе:
+                print('Обновление Авиабилет в Заказе: ' + str(item_flight_rec.name))
+        else:
+            # 3. Если позиция Авиабилет в odoo отсутствует, создаём запись и заполняем hz_id
+            item_flight_rec = self.env['hotels.order.item.flight'].create({'hz_id': int(hz_model['id'])})
+            print('Добавлено Авиабилет в Заказ, id: ' + str(hz_model['id']))
+        # Для пуктов 2 и 3 обновление всех остальных полей
+
+        # Заполнение полей
+        item_flight_rec.update({
+            'name': hz_model['label'],
+            'quantity': hz_model['quantity'],
+            'price': hz_model['price'],
+            'price_total': hz_model['total'],
+            'hz_last_update': datetime.datetime.now(),
+        })
+        return item_flight_rec
+
+    # Импорт позиций Жел. дор. билетов в Заказе
+    def item_train_import(self, hz_model):
+        return
+
     # Импорт Заказа из Hotelzov
     def order_import(self, hz_model):
         order_rec = self.env['hotels.order'].search([('hz_id', '=', hz_model['id'])])
@@ -205,7 +304,7 @@ class HotelsImport(models.TransientModel):
             order_rec = self.env['hotels.order'].create({'hz_id': int(hz_model['id']),
                                                          'name': hz_model['number']})
             print('Добавлен Заказ: ' + order_rec.name)
-        # Для пуктов 2 и 3 обновление всех остальных не реляционных полей
+        # Для пуктов 2 и 3 обновление всех остальных полей
         currency_id = self.env['res.currency'].search([('name', '=', hz_model['currency_code'])]).id
         if currency_id:
             # Если id валюты найден по коду из Hotelzov (RUB, USD, ...), то обновляем
@@ -217,41 +316,48 @@ class HotelsImport(models.TransientModel):
             # Сохраняем неизвестный код валюты в спец. поле
             order_rec.update({'hz_currency_code': hz_model['currency_code']})
 
+        if 'guest' in hz_model:
+            hz_guest = hz_model['guest']
+            # Импорт Гостя
+            guest_rec = self.guest_import(hz_guest)
+            # Связываем с Гостем
+            if order_rec.guest_id != guest_rec:
+                order_rec.guest_id = guest_rec
+
+        # Проверяем позиции по Заказу
+        if 'order_items' in hz_model:
+            hz_order_items = hz_model['order_items']
+            # Если есть позиции Бронирования
+            if 'roomify_accommodation_booking' in hz_order_items:
+                hz_items_accommodation = hz_order_items['roomify_accommodation_booking']
+                # Для каждой позиции
+                for info_accommodation in hz_items_accommodation:
+                    # Импортируем позицию
+                    accommodation_rec = self.item_accommodation_import(info_accommodation)
+                    # Устанавливаем код валюты как в Заказе
+                    accommodation_rec.currency_id = order_rec.currency_id
+                    # Добавляем в состав Заказа Бронирования
+                    if accommodation_rec not in order_rec.item_accommodation_ids:
+                        order_rec.write({'item_accommodation_ids': [(4, accommodation_rec.id, 0)]})
+            # Если есть позиция на Авиа билеты
+            if 'flight' in hz_order_items:
+                hz_items_flight = hz_order_items['flight']
+                # Для каждой позиции
+                for info_flight in hz_items_flight:
+                    # Импортируем позицию
+                    flight_rec = self.item_flight_import(info_flight)
+                    # Устанавливаем код валюты как в Заказе
+                    flight_rec.currency_id = order_rec.currency_id
+                    # Добавляем в состав Заказа Бронирования
+                    if flight_rec not in order_rec.item_flight_ids:
+                        order_rec.write({'item_flight_ids': [(4, flight_rec.id, 0)]})
+
         order_rec.update({
             'order_date': datetime.datetime.fromtimestamp(hz_model['date']),
             'status': hz_model['status'],
             'price': hz_model['price'],
-            'arrival_date': datetime.datetime.fromtimestamp(hz_model['arrival_date']),
-            'arrival_time': hz_model['arrival_time'],
-            'departure_date': datetime.datetime.fromtimestamp(hz_model['departure_date']),
             'hz_last_update': datetime.datetime.now(),
         })
-
-        if 'hotel' in hz_model:
-            info_hotel = hz_model['hotel']
-            # Импорт Отеля
-            hotel_rec = self.hotel_import(info_hotel)
-            # Связывваем с Отелем
-            if order_rec.hotel_id != hotel_rec:
-                order_rec.hotel_id = hotel_rec
-            # Если время заезда не указано, устанавливаем по умолчанию из Отеля
-            if not order_rec.arrival_time:
-                order_rec.arrival_time = hotel_rec.arrival_time_std
-                order_rec._onchange_arrival_date()
-        if 'guest' in hz_model:
-            info_guest = hz_model['guest']
-            # Импорт Гостя
-            guest_rec = self.guest_import(hz_model['guest'])
-            # Связываем с Гостем
-            if order_rec.guest_id != guest_rec:
-                order_rec.guest_id = guest_rec
-        if 'room_type' in hz_model:
-            info_room_type = hz_model['room_type']
-            # Импорт Типа Номера
-            room_type_rec = self.room_type_import(info_room_type)
-            # Связываем с Типом номера
-            if order_rec.room_type_id != room_type_rec:
-                order_rec.room_type_id = room_type_rec
 
         if order_rec:
             print('    Заказ: ' + order_rec.name + ' (Импорт завершён)')

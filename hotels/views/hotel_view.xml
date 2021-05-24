@@ -2,6 +2,7 @@
 
 <odoo>
 
+    <!-- Hotels Action -->
     <record id="action_hotels" model="ir.actions.act_window">
         <field name="name">Hotels</field>
         <field name="type">ir.actions.act_window</field>
@@ -13,18 +14,6 @@
           </p>
         </field>
     </record>
-
-    <!-- Hotel Menu -->
-    <menuitem name="Hotels"
-        id="menu_hotels"
-        sequence="1"
-        groups="base.group_user"/>
-
-    <menuitem id="menu_item_hotels"
-        name="Hotels"
-        action="action_hotels"
-        parent="menu_hotels"
-        sequence="2"/>
 
     <!-- Hotel Tree -->
     <record id="view_tree_hotel" model="ir.ui.view">
@@ -82,15 +71,15 @@
                     </group>
 
                     <notebook>
-                        <page string="Contacts" name="contacts" autofocus="autofocus">
-                            <field name="contacts_ids"/>
-                        </page>
-                        <page string="Rooms" name='rooms' >
+<!--                        <page string="Contacts" name="contacts" autofocus="autofocus">-->
+<!--                            <field name="contacts_ids"/>-->
+<!--                        </page>-->
+                        <page string="Room types" name='rooms' >
                             <field name="room_types_ids" mode="tree">
                                 <tree>
-                                    <field name="name" width="20%"/>
+                                    <field name="name"/>
                                     <field name="currency_id" invisible="True"/>
-                                    <field name="price" width="20%"/>
+                                    <field name="price"/>
                                 </tree>
                             </field>
                         </page>

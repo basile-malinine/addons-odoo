@@ -8,16 +8,19 @@ class Order(models.Model):
     _name = 'hotels.order'
     _description = 'Order'
 
-    name = fields.Char('Number', required=True)
+    name = fields.Char(string='Number', required=True)
     order_date = fields.Date(string='Order date')
     guest_id = fields.Many2one('res.partner', domain="[('is_guest', '=', True)]")
     status = fields.Selection(string='Status', selection=ORDER_STATUS_LIST)
-    items_accommodation = fields.One2many(comodel_name='hotels.order.item.room',
-                                          inverse_name='order_id', string='Accommodation')
+    item_accommodation_ids = fields.One2many(comodel_name='hotels.order.item.accommodation',
+                                             inverse_name='order_id', string='Accommodation')
+    item_flight_ids = fields.One2many(comodel_name='hotels.order.item.flight',
+                                      inverse_name='order_id', string='Flight')
+
     company_id = fields.Many2one('res.company', default=lambda self: self.env.user.company_id.id)
     currency_id = fields.Many2one('res.currency', string='Currency',
                                   default=lambda self: self.env.user.company_id.currency_id)
-    price = fields.Monetary(string='Price')
+    price = fields.Monetary(string='Price', readonly=True)
 
     # Если при импорте код валюты не найден,
     # здесь сохраняется оригинальный код из Hotelzov

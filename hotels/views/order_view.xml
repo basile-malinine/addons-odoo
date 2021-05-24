@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <odoo>
+
+    <!-- Order Action -->
     <record id="action_orders" model="ir.actions.act_window">
-        <field name="name">Order</field>
+        <field name="name">Orders</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hotels.order</field>
         <field name="view_mode">tree,form</field>
@@ -13,25 +15,13 @@
         </field>
     </record>
 
-    <!-- Order Menu -->
-    <menuitem name="Orders"
-        id="menu_orders"
-        sequence="1"
-        groups="base.group_user"/>
-
-    <menuitem id="menu_item_orders"
-        name="Orders"
-        action="action_orders"
-        parent="menu_orders"
-        sequence="2"/>
-
     <!-- Order Tree -->
     <record id="view_tree_order" model="ir.ui.view">
         <field name="name">Orders</field>
         <field name="model">hotels.order</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name" width="180px"/>
+                <field name="name" width="150px"/>
                 <field name="order_date"/>
 <!--                <field name="guest_id"/>-->
 <!--                <field name="hotel_id"/>-->
@@ -49,25 +39,63 @@
         <field name="arch" type="xml">
             <form string="">
                 <sheet>
-                    <h2><field name="name" default_focus="1" placeholder="Number"/></h2>
-                    <group>
-                        <group>
+                    <h2>
+                        <span style="padding: 0 20px 0 0;">Number:</span>
+                        <field name="name" default_focus="1" placeholder="Number"/>
+                    </h2>
+                    <div style="padding: 15px 0 25px 0; border-top: 1px solid;">
+                        <div style="width: 30%; float: left; margin-right: 50px;">
+                            <span class="hotels-label">Date:</span>
                             <field name="order_date"/>
-<!--                            <field name="guest_id"/>-->
-<!--                            <field name="hotel_id"/>-->
-<!--                            <field name="invoice_id"/>-->
+                        </div>
+                        <div style="width: 30%; float: left; margin-right: 50px;">
+                            <span class="hotels-label">Guest:</span>
+                            <field name="guest_id"/>
+                        </div>
+                        <div style="width: 30%; float: left;">
+                            <span class="hotels-label">Status:</span>
                             <field name="status"/>
-                        </group>
-                        <group>
-<!--                            <field name="arrival_date"/>-->
-<!--                            <field name="arrival_time"/>-->
-<!--                            <field name="departure_date"/>-->
-                            <field name="currency_id" invisible="True"/>
-                            <field name="price"/>
-                        </group>
-                        <field name="items_accommodation"/>
-                    </group>
+                        </div>
+                    </div>
+                    <field name="currency_id" invisible="True"/>
 
+                    <notebook>
+                        <page name="items_accommodation" string="Accommodations" autofocus="autofocus">
+                            <field name="item_accommodation_ids">
+                                <tree>
+                                    <field name="booking_id" style="width: 50px;" string="ID"/>
+                                    <field name="arrival_date" style="width: 100px;" string="Arrived"/>
+                                    <field name="departure_date" style="width: 100px;" string="Departure"/>
+                                    <field name="hotel_id" string="Hotel"/>
+                                    <field name="room_type_id"/>
+                                    <field name="quantity" style="width: 100px;"/>
+                                    <field name="currency_id" invisible="True"/>
+                                    <field name="price" style="width: 100px;"/>
+                                    <field name="price_total" style="width: 100px;"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page name="items_flight" string="Flight"
+                              attrs="{'invisible':[('item_flight_ids', '&lt;', '0.0')]}">
+                            <field name="item_flight_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="quantity" style="width: 100px;"/>
+                                    <field name="currency_id" invisible="True"/>
+                                    <field name="price" style="width: 100px;"/>
+                                    <field name="price_total" style="width: 100px;"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                    <div style="padding-top: 20px;">
+                        <h2>
+                            <span style="padding: 0 50px 0 20px;">TOTAL:</span>
+                            <field name="price"/>
+                        </h2>
+                    </div>
                 </sheet>
             </form>
         </field>

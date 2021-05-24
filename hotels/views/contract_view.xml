@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <odoo>
+
+    <!-- Contract Action -->
     <record id="action_contracts" model="ir.actions.act_window">
         <field name="name">Contract</field>
         <field name="type">ir.actions.act_window</field>
@@ -12,18 +14,6 @@
           </p>
         </field>
     </record>
-
-    <!-- Contract Menu -->
-    <menuitem name="Contracts"
-        id="menu_contracts"
-        sequence="1"
-        groups="base.group_user"/>
-
-    <menuitem id="menu_item_contracts"
-        name="Contracts"
-        action="action_contracts"
-        parent="menu_contracts"
-        sequence="2"/>
 
     <!-- Contract Tree -->
     <record id="view_tree_contract" model="ir.ui.view">
