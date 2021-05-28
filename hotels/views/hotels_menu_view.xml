@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+
+    <!-- Add order.css -->
+    <template id="assets_backend" inherit_id="web.assets_backend"
+              name="Hotels Order" >
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/hotels/static/src/css/order.css"/>
+            <script type="text/javascript"
+                    src="/hotels/static/src/js/order.js">
+            </script>
+        </xpath>
+    </template>
+
+    <!-- Hotelzov Menu -->
+    <menuitem id="menu_hotels"
+              name="Hotelzov"
+              sequence="0"
+              web_icon="hotels,static/description/icon.png"
+              groups="base.group_user"
+    />
+        <menuitem id="menu_item_hotels"
+                  name="Hotels"
+                  parent="menu_hotels"
+                  sequence="1"
+                  action="action_hotels"
+        />
+        <menuitem id="menu_item_room_types"
+                  name="Room types"
+                  parent="menu_hotels"
+                  sequence="2"
+                  action="action_room_types"
+        />
+        <menuitem id="menu_item_orders"
+                  name="Orders"
+                  parent="menu_hotels"
+                  sequence="3"
+                  action="action_orders"
+        />
+        <menuitem id="menu_item_contracts"
+                  name="Contracts"
+                  parent="menu_hotels"
+                  sequence="4"
+                  action="action_contracts"
+        />
+        <menuitem id="menu_item_invoices"
+                  name="Invoices"
+                  parent="menu_hotels"
+                  sequence="5"
+                  action="action_invoices"
+        />
+
+        <menuitem id="menu_hotels_settings"
+                  name="Settings"
+                  parent="menu_hotels"
+                  sequence="6"
+                  action="action_hotels_settings"
+                  groups="base.group_system"
+        />
+
+</odoo>

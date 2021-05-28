@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <odoo>
+
+    <!-- Invoice Action -->
     <record id="action_invoices" model="ir.actions.act_window">
         <field name="name">Invoice</field>
         <field name="type">ir.actions.act_window</field>
@@ -12,18 +14,6 @@
           </p>
         </field>
     </record>
-
-    <!-- Invoice Menu -->
-    <menuitem name="Invoices"
-        id="menu_invoices"
-        sequence="1"
-        groups="base.group_user"/>
-
-    <menuitem id="menu_item_invoices"
-        name="Invoices"
-        action="action_invoices"
-        parent="menu_invoices"
-        sequence="2"/>
 
     <!-- Invoice Tree -->
     <record id="view_tree_invoice" model="ir.ui.view">
@@ -56,17 +46,17 @@
                         </group>
                     </group>
 
-                    <notebook>
-                        <page string="Orders" name='orders' >
-                            <field name="orders_ids" mode="tree">
-                                <tree>
-                                    <field name="name"/>
-                                    <field name="order_date"/>
-                                    <field name="guest_id"/>
-                                </tree>
-                            </field>
-                        </page>
-                    </notebook>
+<!--                    <notebook>-->
+<!--                        <page string="Orders" name='orders' >-->
+<!--                            <field name="orders_ids" mode="tree">-->
+<!--                                <tree>-->
+<!--                                    <field name="name"/>-->
+<!--                                    <field name="order_date"/>-->
+<!--                                    <field name="guest_id"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
+<!--                        </page>-->
+<!--                    </notebook>-->
 
                 </sheet>
             </form>

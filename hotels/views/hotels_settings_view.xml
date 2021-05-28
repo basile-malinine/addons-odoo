@@ -7,49 +7,61 @@
         <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('settings')]" position="inside">
-                <div class="app_settings_block" string="Hotels Settings" data-key="hotel_settings">
+                <div class="app_settings_block" data-string="Hotelzov" string="Hotelzov" data-key="hotels">
+
                     <h2>Hotelzov Settings</h2>
                     <div class="row mt16 o_settings_container" name="users_setting_container">
                         <div class="col-12 col-lg-6 o_setting_box" id="active_user_setting">
                             <div class="o_setting_right_pane">
-                                <span class='o_form_label'>
-                                    Hotelzov URL:
-                                </span>
+                                <span class='o_form_label'>Hotelzov URL:</span>
                                 <field name="url_hz"/>
-                                <button name="test_url" type="object" string="Test"/>
+                                <button name="test_url_press" type="object" string="Test"/>
+                                <field name="is_url_ok" invisible="True"/>
                             </div>
                         </div>
                     </div>
 
-                    <div invisible="0">
+                    <div attrs="{'invisible':[('is_url_ok', '=', False)]}">
+
                         <h2>Hotels Import</h2>
                         <div class="row mt16 o_settings_container" name="users_setting_container">
                             <div class="col-12 col-lg-6 o_setting_box" id="active_user_setting">
                                 <div class="o_setting_right_pane">
-                                    <span class='o_form_label'>
-                                        Hotels in paket:
-                                    </span>
-                                    <field name="num_hotels_in_paket"/>
+                                    <span class='o_form_label'>Hotels in paket:</span>
+                                    <field name="num_hotels_in_paket" class="fld-inp-int"/>
                                     <br/>
                                     <button name="import_hotels" type="object" string="Import"/>
                                 </div>
                             </div>
                         </div>
+
+                        <h2>Orders Import</h2>
+                        <div class="row mt16 o_settings_container" name="users_setting_container">
+                            <div class="col-12 col-lg-6 o_setting_box" id="active_user_setting">
+                                <div class="o_setting_right_pane">
+                                    <span class='o_form_label'>Orders in paket:</span>
+                                    <field name="num_orders_in_paket" class="fld-inp-int"/>
+                                    <br/>
+                                    <button name="import_orders" type="object" string="Import"/>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+
                 </div>
             </xpath>
         </field>
     </record>
 
-    <record id="hotels_settings_action" model="ir.actions.act_window">
-        <field name="name">Hotels settings</field>
+    <record id="action_hotels_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.config.settings</field>
         <field name="view_id" ref="hotels_settings_view_form"/>
         <field name="view_mode">form</field>
         <field name="target">inline</field>
+        <field name="context">{'module' : 'hotels'}</field>
     </record>
-
-    <menuitem id="hotels_settings_menu" name="Hotels settings"
-        parent="base.menu_config" action="hotels_settings_action"/>
 
 </odoo>

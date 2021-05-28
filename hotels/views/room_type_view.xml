@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <odoo>
+
+    <!-- Room type Action -->
     <record id="action_room_types" model="ir.actions.act_window">
         <field name="name">Room types</field>
         <field name="type">ir.actions.act_window</field>
@@ -12,18 +14,6 @@
           </p>
         </field>
     </record>
-
-    <!-- Room type Menu -->
-    <menuitem name="Room types"
-        id="menu_room_types"
-        sequence="1"
-        groups="base.group_user"/>
-
-    <menuitem id="menu_item_room_types"
-        name="Room types"
-        action="action_room_types"
-        parent="menu_room_types"
-        sequence="2"/>
 
     <!-- Room type Tree -->
     <record id="view_room_type" model="ir.ui.view">
@@ -56,7 +46,7 @@
                             <field name="price"/>
                         </group>
                         <group>
-                            <field name="hz_id" string="HZ ID"/>
+                            <field name="hz_id" options="{'format': false}" string="HZ ID"/>
                             <field name="hz_last_update" string="HZ last update"/>
                             <field name="hz_currency_code" string="HZ currency code"/>
                         </group>
