@@ -10,39 +10,74 @@
                 <div class="app_settings_block" data-string="Hotelzov" string="Hotelzov" data-key="hotels">
 
                     <h2>Hotelzov Settings</h2>
-                    <div class="row mt16 o_settings_container" name="users_setting_container">
-                        <div class="col-12 col-lg-6 o_setting_box" id="active_user_setting">
-                            <div class="o_setting_right_pane">
-                                <span class='o_form_label'>Hotelzov URL:</span>
-                                <field name="url_hz"/>
-                                <button name="test_url_press" type="object" string="Test"/>
-                                <field name="is_url_ok" invisible="True"/>
+                        <div class="row mt16 o_settings_container" name="users_setting_container">
+                            <div class="col-12 col-lg-6 o_setting_box" id="active_user_setting">
+                                <div class="o_setting_right_pane">
+                                    <span class='o_form_label'>Hotelzov URL:</span>
+                                    <field name="url_hz"/><br />
+
+                                    <span class='o_form_label'>Odoo server URL:</span>
+                                    <field name="odoo_url"/><br />
+
+                                    <span class='o_form_label'>Your Odoo login:</span>
+                                    <field name="odoo_user"/><br />
+
+                                    <span class='o_form_label'>Your Odoo password:</span>
+                                    <field name="odoo_pass" password="true"/><br />
+
+                                    <button name="test_hz_cn_press" type="object" string="TEST CONNECTION"/>
+                                    <field name="is_url_ok" invisible="True"/><br />
+
+<!--                                    <button id="test_ajax" onclick="testUrlHz();" string="TEST AJAX"/>-->
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div attrs="{'invisible':[('is_url_ok', '=', False)]}">
+                    <div disabled="true" attrs="{'invisible':[('is_url_ok', '=', False)]}">
 
                         <h2>Hotels Import</h2>
                         <div class="row mt16 o_settings_container" name="users_setting_container">
                             <div class="col-12 col-lg-6 o_setting_box" id="active_user_setting">
                                 <div class="o_setting_right_pane">
+                                    <span class='o_form_label'>Start record:</span>
+                                    <field name="hotels_start_record" class="fld-inp-int"/><br/>
+
                                     <span class='o_form_label'>Hotels in paket:</span>
-                                    <field name="num_hotels_in_paket" class="fld-inp-int"/>
-                                    <br/>
-                                    <button name="import_hotels" type="object" string="Import"/>
+                                    <field name="num_hotels_in_paket" class="fld-inp-int"/><br/>
+                                </div>
+
+                                <div class="o_setting_left_pane">
+                                    <field name="hotels_forced_update"/>
+                                </div>
+
+                                <div class="o_setting_right_pane">
+                                    <span class='o_form_label'>Forced update</span><br/>
+                                    <button name="hotels_import_press" type="object" string="Import"/>
                                 </div>
                             </div>
                         </div>
+
+                    </div>
+                    <div attrs="{'invisible':[('is_url_ok', '=', False)]}">
 
                         <h2>Orders Import</h2>
                         <div class="row mt16 o_settings_container" name="users_setting_container">
                             <div class="col-12 col-lg-6 o_setting_box" id="active_user_setting">
                                 <div class="o_setting_right_pane">
+                                    <span class='o_form_label'>Start record:</span>
+                                    <field name="orders_start_record" class="fld-inp-int"/><br/>
+
                                     <span class='o_form_label'>Orders in paket:</span>
-                                    <field name="num_orders_in_paket" class="fld-inp-int"/>
-                                    <br/>
-                                    <button name="import_orders" type="object" string="Import"/>
+                                    <field name="num_orders_in_paket" class="fld-inp-int"/><br/>
+                                </div>
+
+                                <div class="o_setting_left_pane">
+                                    <field name="orders_forced_update"/>
+                                </div>
+
+                                <div class="o_setting_right_pane">
+                                    <span class='o_form_label'>Forced update</span><br/>
+                                    <button name="orders_import_press" type="object" string="Import"/>
                                 </div>
                             </div>
                         </div>

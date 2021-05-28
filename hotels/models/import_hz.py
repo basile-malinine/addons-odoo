@@ -366,6 +366,7 @@ class HotelsImport(models.TransientModel):
         return order_rec
 
     def import_info_hz(self, info):
+        res = False
         if 'hotels' in info:
             info_hotels = info['hotels']
             i = 0
@@ -374,6 +375,7 @@ class HotelsImport(models.TransientModel):
                 i += 1
                 print('#: ' + str(i) + '  id: ' + str(hotel_rec.id) + '  hz_id: ' + str(hotel_rec.hz_id))
                 print('----------------------------------')
+            res = True
         elif 'orders' in info:
             info_orders = info['orders']
             i = 0
@@ -382,8 +384,11 @@ class HotelsImport(models.TransientModel):
                 i += 1
                 print('#: ' + str(i) + '  id: ' + str(order_rec.id))
                 print('----------------------------------')
+            res = True
         else:
             print('Данные для импорта не корректны или отсутствуют!')
+            res = False
+        return res
 
     # Добавление или обновление заказа!
     def order_info_update_hz(self, arg):
