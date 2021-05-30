@@ -12,8 +12,8 @@
                     <h2>Hotelzov Settings</h2>
                         <div class="row mt16 o_settings_container" name="users_setting_container">
                             <div class="col-12 col-lg-6 o_setting_box" id="active_user_setting">
-                                <div class="o_setting_right_pane">
-                                    <span class='o_form_label'>Hotelzov URL:</span>
+                                <div class="o_setting_right_pane" style="width: 500px;">
+                                    <span class='o_form_label'>Hotelzov URL (Odoo endpoint):</span>
                                     <field name="url_hz"/><br />
 
                                     <span class='o_form_label'>Odoo server URL:</span>
