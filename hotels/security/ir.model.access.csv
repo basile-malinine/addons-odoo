@@ -6,5 +6,6 @@ access_hotels_invoice,access_hotels_invoice,model_hotels_invoice,base.group_user
 access_hotels_order,access_hotels_order,model_hotels_order,base.group_user,1,1,1,1
 access_hotels_import_hz,access_hotels_import_hz,model_hotels_import_hz,base.group_user,1,1,1,1
 access_hotels_room_type,access_hotels_room_type,model_hotels_room_type,base.group_user,1,1,1,1
+access_hotels_price_option,access_hotels_price_option,model_hotels_price_option,base.group_user,1,1,1,1
 access_hotels_order_item_accommodation,access_hotels_order_item_accommodation,model_hotels_order_item_accommodation,base.group_user,1,1,1,1
 access_hotels_order_item_flight,access_hotels_order_item_flight,model_hotels_order_item_flight,base.group_user,1,1,1,1

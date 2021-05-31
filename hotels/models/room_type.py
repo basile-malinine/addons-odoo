@@ -10,6 +10,9 @@ class RoomType(models.Model):
     currency_id = fields.Many2one('res.currency', string='Currency',
                                   default=lambda self: self.env.user.company_id.currency_id)
     price = fields.Monetary('Price')
+    price_options_ids = fields.One2many(comodel_name='hotels.price_option',
+                                        inverse_name='room_type_id',
+                                        string='Price option')
 
     # Если при импорте код валюты не найден,
     # здесь сохраняется оригинальный код из Hotelzov

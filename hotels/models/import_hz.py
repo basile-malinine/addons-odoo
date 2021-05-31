@@ -80,6 +80,22 @@ class HotelsImport(models.TransientModel):
         })
         return guest_rec
 
+    # Импорт Тарифной опции по Типу номера из Hotelzov
+    def price_option_import(self, hz_model):
+        price_option_rec = self.env['hotels.price_option'].search([('hz_id', '=', hz_model['id'])])
+        if not price_option_rec:
+            # Если Тарифная опция в odoo отсутствует, создаём запись и заполняем hz_id и Метку
+            price_option_rec = self.env['hotels.price_option'].create({'hz_id': int(hz_model['id'])})
+            print('Добавлена Тарифная опция id: ' + str(hz_model['id']))
+        else:
+            print('Обновление Тарифной опции id: ' + str(price_option_rec.id))
+        price_option_rec.update({
+            'label': hz_model['label'],
+            'quantity': hz_model['quantity'],
+            'price': hz_model['price'],
+        })
+        return price_option_rec
+
     # Импорт Типа номера из Hotelzov
     def room_type_import(self, hz_model):
         room_type_rec = self.env['hotels.room_type'].search([('hz_id', '=', hz_model['id'])])
@@ -114,6 +130,17 @@ class HotelsImport(models.TransientModel):
             'price': hz_model['price'],
             'hz_last_update': datetime.datetime.now(),
         })
+        if 'price_options' in hz_model:
+            info_price_options = hz_model['price_options']
+            if info_price_options:
+                # Для каждой Тарифной опции
+                for price_option in info_price_options:
+                    # Импортируем
+                    price_option_rec = self.price_option_import(price_option)
+                    price_option_rec.currency_id = room_type_rec.currency_id
+                    # Связываем с Типом номера
+                    if price_option_rec not in room_type_rec.price_options_ids:
+                        room_type_rec.write({'price_options_ids': [(4, price_option_rec.id, 0)]})
         return room_type_rec
 
     # Импорт Отеля из Hotelzov
@@ -366,6 +393,7 @@ class HotelsImport(models.TransientModel):
         return order_rec
 
     def import_info_hz(self, info):
+        res = False
         if 'hotels' in info:
             info_hotels = info['hotels']
             i = 0
@@ -374,6 +402,7 @@ class HotelsImport(models.TransientModel):
                 i += 1
                 print('#: ' + str(i) + '  id: ' + str(hotel_rec.id) + '  hz_id: ' + str(hotel_rec.hz_id))
                 print('----------------------------------')
+            res = True
         elif 'orders' in info:
             info_orders = info['orders']
             i = 0
@@ -382,8 +411,11 @@ class HotelsImport(models.TransientModel):
                 i += 1
                 print('#: ' + str(i) + '  id: ' + str(order_rec.id))
                 print('----------------------------------')
+            res = True
         else:
             print('Данные для импорта не корректны или отсутствуют!')
+            res = False
+        return res
 
     # Добавление или обновление заказа!
     def order_info_update_hz(self, arg):
